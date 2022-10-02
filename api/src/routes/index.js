@@ -23,16 +23,8 @@ router.get("/dogs", async (req,res)=>{
 })
 
 router.get("/temperaments", async (req,res) => {
-    const name = req.query.name
     let temperamentsAll = await getAllTemperaments();
-    if(name){
-        let temperamentName = await temperamentsAll.filter(el => el.name.toLowerCase().includes(name.toLowerCase()))
-        temperamentName.length ?
-        res.status(200).send(temperamentName) :
-        res.status(404).send('The Temperament Was Not Found') 
-    } else{
         res.status(200).send(temperamentsAll)
-    }
 })
 
 router.post("/dogs", async (req,res) => {
@@ -41,6 +33,7 @@ router.post("/dogs", async (req,res) => {
         height,
         weight,
         lifeSpan,
+        image,
         temperament
     } = req.body
     let dogCreated = await Dog.create({
@@ -48,11 +41,11 @@ router.post("/dogs", async (req,res) => {
         height,
         weight,
         lifeSpan,
+        image,
     })
     let temperamentDb = await Temperament.findAll({
         where: { name: temperament }
     })
-    console.log(temperamentDb)
     dogCreated.addTemperament(temperamentDb)
     res.send("The Dog Was Successfully Created")
 })
@@ -61,7 +54,7 @@ router.get("/dogs/:id", async (req,res) =>{
     const id = req.params.id;
     const dogAll = await getAllDogs()
     if (id){
-        let dogId = await dogAll.filter( el => el.id.toLowerCase().includes(id.toLowerCase()))
+        let dogId = await dogAll.filter( el => el.id == id)
         dogId.length ?
         res.status(200).json(dogId) :
         res.status(404).send("The Dog Was Not Found")

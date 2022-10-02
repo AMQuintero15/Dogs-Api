@@ -19,12 +19,12 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const { getApiInfo } = require('./src/routes/controllers.js');
+const { getAllTemperaments } = require('./src/routes/controllers.js');
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   server.listen(3001, () => {
-    getApiInfo()
+    getAllTemperaments()
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });
