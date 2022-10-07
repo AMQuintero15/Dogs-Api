@@ -29,6 +29,7 @@ router.get("/temperaments", async (req,res) => {
 
 router.post("/dogs", async (req,res) => {
     let {
+        id,
         name,
         height,
         weight,
@@ -37,6 +38,7 @@ router.post("/dogs", async (req,res) => {
         temperament
     } = req.body
     let dogCreated = await Dog.create({
+        id,
         name,
         height,
         weight,

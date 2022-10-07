@@ -35,13 +35,14 @@ const getAllDogs = async () =>{
     const dbInfo = await getDbInfo();
     const dbInfoString = dbInfo.map(el =>{
         let newDog = {
+          id: el.id,
           name: el.name,
           height: el.height,
           weight: el.weight,
           lifeSpan: el.lifeSpan,
           image: el.image,
           createdInDb: el.createdInDb,
-          temperaments: el.temperaments.map(temp => {
+          temperament: el.temperaments.map(temp => {
             return temp.name
         }).join(", ")
         } 
@@ -60,17 +61,21 @@ const getAllDogs = async () =>{
     });
     const temperamentSet = new Set(temperamentsInfo.flat())
     const temperamentArr = Array.from(temperamentSet)
-    const temperamentArrFinal = temperamentArr.map(el =>{
+    const temperamentArrTrimed = temperamentArr.map(el =>{
       if(el !== undefined){
         return el.trim()
       }})
-      temperamentArrFinal.forEach(el => {
+      temperamentArrTrimed.forEach(el => {
         if(el !== undefined){
           Temperament.findOrCreate({
             where: { name: el }
           })
         }
       });
+      const temperamentSetFinal = new Set(temperamentArrTrimed)
+      const temperamentArrFinal = Array.from(temperamentSetFinal)
+      temperamentArrFinal.sort()
+      temperamentArrFinal.pop()
       return temperamentArrFinal
   }
 
