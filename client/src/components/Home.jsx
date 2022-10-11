@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDogs, filterByName, filterByWeight, filterByTemperament, getTemperaments, filterByCreated } from "../actions";
 import { Link } from "react-router-dom";
-import Card from "./Card";
-import Paginado from "./Paginado";
+import Card from "./Card/Card";
+import Paginado from "./Paginado/Paginado";
 import SearchBar from "./SearchBar";
 
 export default function Home(){
@@ -22,7 +22,6 @@ export default function Home(){
     const paginado = (pageNumber) =>{
         setCurrentPage(pageNumber)
     }
-
     useEffect(() =>{
         dispatch(getDogs());
         dispatch(getTemperaments());
@@ -31,7 +30,7 @@ export default function Home(){
     function handleClick(e){
         e.preventDefault();
         dispatch(getDogs());
-        
+        setCurrentPage(1)        
     }
     function handleSortName(e){
         e.preventDefault();
@@ -46,7 +45,7 @@ export default function Home(){
         setCurrentPage(1)
         setOrder(`Ordenado ${e.target.value}`)
     }
-
+    
     function handleFilterTemp(e){
         dispatch(filterByTemperament(e.target.value))
         setCurrentPage(1)
@@ -58,7 +57,7 @@ export default function Home(){
     }
     return (
         <div>
-            <Link to= "/dogs">Create Dog</Link>
+            <Link className="homeCreateDog" to= "/dogs">Create Dog</Link>
             <h1>My Doggies App</h1>
             <button onClick={ e => {handleClick(e)}}>
                 Refresh All Dogs
@@ -94,9 +93,11 @@ export default function Home(){
                 />
                 <SearchBar/>
                 {currentDogs?.map( (el)=> {
-                        return (
-                            <div key={el.id}>
-                                    <Card name={el.name} image={el.image ? el.image : "https://holatelcel.com/wp-content/uploads/2020/09/cheems-memes-9.jpg"} temperament={el.temperament? el.temperament : "This Doggie has no temperaments"} id={el.id} weight={el.weight} />
+                    return (
+                        <div key={el.id}>
+                                    <Card name={el.name} image={el.image ? el.image : "https://holatelcel.com/wp-content/uploads/2020/09/cheems-memes-9.jpg"} temperament={el.temperament? el.temperament : "This Doggie has no temperaments"} id={el.id} weight={
+                                        typeof el.weight === "string" ? !el.weight.includes("NaN") ? el.weight : "This Doggie did not share their weight" : el.weight
+                                    } />
                             </div>
                         )})}
             </div>

@@ -4,10 +4,12 @@ import Landing from "./components/Landing";
 import Home from './components/Home';
 import DogCreate from "./components/DogCreate";
 import Detail from "./components/Detail";
+import Logo from './components/Logo/Logo';
 
 function App() {
   return (
     <BrowserRouter>
+          <Logo/>
     <div className="App">
       <Switch>
         <Route exact path="/" component={Landing}/>

@@ -1,0 +1,10 @@
+ul{
+        display: flex;
+        list-style-type: none;
+        column-gap: 5px;
+        text-align: center;
+}
+nav{
+        padding-left: 370px;
+        padding-right: 370px;
+}

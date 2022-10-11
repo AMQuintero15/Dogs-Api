@@ -1,6 +1,7 @@
 const initialState = {
     dogs: [],
     allDogs: [],
+    detail: [],
     temperaments: [],
 }
 
@@ -25,6 +26,11 @@ function rootReducer(state = initialState, action){
                 dogs: action.payload 
             }
 
+        case "GET_DOGS_DETAIL":
+            return {
+                ...state,
+                detail: action.payload
+            }
         case "POST_DOG":
             return {
                 ...state,
@@ -66,7 +72,7 @@ function rootReducer(state = initialState, action){
                  }
             })
             
-            const allDogsWeightFiltered = allDogsWeight.filter(el => !!el.weight !== false)
+            const allDogsWeightFiltered = allDogsWeight.filter(el => !el.weight === false)
 
             const dogsWeight = action.payload
                 if(dogsWeight === "Asc Weight"){

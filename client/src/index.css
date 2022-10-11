@@ -3,11 +3,43 @@ body {
   background-size: 100% 100%;
   background-attachment: fixed;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: cursive;
+  color: #FFD100;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+div.logo-main {
+  position: fixed;
+}
+
+h3.doglink{
+  color: #E80B00;
+  margin: 10px 600px;
+}
+
+h3.doglink:hover{
+  color: #46FF00;
+}
+a.detailGoBack{
+  color: #E80B00;
+}
+a.detailGoBack:hover{
+  color: #46FF00;
+}
+a.homeCreateDog{
+  color: #E80B00;
+}
+a.homeCreateDog:hover{
+  color: #46FF00;
+}
+
+li.number{
+  border: 3px solid #f2f224;
+  cursor: pointer;
+}
+li.number:hover:not(.active){
+  background-color: #4CAF50;
+  color: white;
 }
 
 code {
