@@ -11,33 +11,61 @@ function validate(input){
     else if(!/^[a-zA-Z\s]*$/.test(input.name)){
         errors.name = "The name must only contain letters"
     }
-    else if(!input.height){
-        errors.height = "A height is required"
+    else if(!input.heightMin){
+        errors.heightMin = "A minimum height is required"
     }
-    else if(!/^[0-9\s-]*$/gm.test(input.height)){
-        errors.height = "The height must only contain numbers"
+    else if(!input.heightMax){
+        errors.heightMax = "A maximum height is required"
     }
-    else if(!/^.{5,7}$/.test(input.height)){
-        errors.height = "Please input the height as a range e.g: 10 - 15"
+    else if(Number(input.heightMin) >= Number(input.heightMax)){
+        errors.heightMin = "Minimum height must be less than maximum height"
     }
-    else if(!input.weight){
-        errors.weight = "A weight is required"
+    // else if(!/^[0-9\s-]*$/gm.test(input.heightMin)){
+    //     errors.heightMin = "The minimum height must only contain numbers"
+    // }
+    // else if(!/^.{5,7}$/.test(input.heightMin)){
+    //     errors.heightMin = "Please input the minimum height as a range e.g: 10 - 15"
+    // }
+    // else if(!/^[0-9\s-]*$/gm.test(input.heightMax)){
+    //     errors.heightMax = "The maximum height must only contain numbers"
+    // }
+    // else if(!/^.{5,7}$/.test(input.heightMax)){
+    //     errors.heightMax = "Please input the maximum height as a range e.g: 10 - 15"
+    // }
+    else if(!input.weightMin){
+        errors.weightMin = "A minimum weight is required"
     }
-    else if(!/^[0-9\s-]*$/gm.test(input.weight)){
-        errors.weight = "The weight must only contain numbers"
+    else if(!input.weightMax){
+        errors.weightMax = "A minimum weight is required"
     }
-    else if(!/^.{5,7}$/.test(input.weight)){
-        errors.weight = "Please input the weight as a range e.g: 10 - 15"
+    else if(Number(input.weightMin) >= Number(input.weightMax)){
+        errors.weightMin = "Minimum weight must be less than maximum weight"
     }
-    else if(!input.lifeSpan){
-        errors.lifeSpan = "A Life Span is required"
+    // else if(!/^[0-9\s-]*$/gm.test(input.weight)){
+    //     errors.weight = "The weight must only contain numbers"
+    // }
+    // else if(!/^.{5,7}$/.test(input.weight)){
+    //     errors.weight = "Please input the weight as a range e.g: 10 - 15"
+    // }
+    else if(!input.lifeSpanMin){
+        errors.lifeSpanMin = "A minimum life span is required"
     }
-    else if(!/^[0-9\s-]|\W*(years)\W*$/gm.test(input.lifeSpan)){
-        errors.lifeSpan = "The lifeSpan must only contain numbers and the words 'years' at the end"
+    else if(!input.lifeSpanMax){
+        errors.lifeSpanMax = "A minimum life span is required"
     }
-    else if(!/^.{11,13}$/.test(input.lifeSpan)){
-        errors.lifeSpan = "Please input the lifeSpan as a range with the word years e.g: 10 - 15 years"
+    else if(Number(input.lifeSpanMin) >= Number(input.lifeSpanMax)){
+        errors.lifeSpanMin = "Minimum lifeSpan must be less than maximum lifeSpan"
     }
+    // else if(!input.lifeSpan){
+    //     errors.lifeSpan = "A Life Span is required"
+    // }
+    // else if(!/^[0-9\s-]|\W*(years)\W*$/gm.test(input.lifeSpan)){
+    //     errors.lifeSpan = "The lifeSpan must only contain numbers and the words 'years' at the end"
+    // }
+    // else if(!/^.{11,13}$/.test(input.lifeSpan)){
+    //     errors.lifeSpan = "Please input the lifeSpan as a range with the word years e.g: 10 - 15 years"
+    // }
+    console.log(errors)
     return errors
 }
 
@@ -52,12 +80,18 @@ export default function DogCreate(){
     const [input, setInput] = useState({
         name: "",
         height: "",
+        heightMin: "",
+        heightMax: "",
         weight: "",
+        weightMin: "",
+        weightMax: "",
         lifeSpan: "",
+        lifeSpanMin: "",
+        lifeSpanMax: "",
         image: "",
         temperament: []
     })
-
+    console.log(input)
     useEffect(() => {
         dispatch(getTemperaments())
     }, [dispatch]);
@@ -65,7 +99,10 @@ export default function DogCreate(){
     function handleChange(e){
         setInput({
             ...input,
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value,
+            height: input.heightMin + " - " + input.heightMax,
+            weight: input.weightMin + " - " + input.weightMax,
+            lifeSpan: input.lifeSpanMin + " - " + input.lifeSpanMax + " years"
         })
         setErrors(validate({
             ...input,
@@ -79,7 +116,7 @@ export default function DogCreate(){
             temperament: [...input.temperament, e.target.value]
         })
     }
-    
+
     function handleSubmit(e){
         e.preventDefault();
         dispatch(postDog(input))
@@ -115,28 +152,40 @@ export default function DogCreate(){
                 </div>
                 <div>
                     <label>Height:</label>
-                    <input type="text" value={input.height} name="height" onChange={(e) => handleChange(e)}/>
-                    {errors.height && (
-                        <p className="error" style={ {color: "red"} }>{errors.height}</p>
+                    <input type="number" placeholder="Min" min={1} max={99} value={input.heightMin} name="heightMin" onChange={(e) => handleChange(e)}/>
+                    <input type="number" placeholder="Max" min={+input.heightMin + 1} max={+input.heightMin + 50} value={input.heightMax} name="heightMax" onChange={(e) => handleChange(e)}/>
+                    {errors.heightMax && (
+                        <p className="error" style={ {color: "red"} }>{errors.heightMax}</p>
+                    )}
+                    {errors.heightMin && (
+                        <p className="error" style={ {color: "red"} }>{errors.heightMin}</p>
                     )}
                 </div>
                 <div>
                     <label>Weight:</label>
-                    <input type="text" value={input.weight} name="weight" onChange={(e) => handleChange(e)}/>
-                    {errors.weight && (
-                        <p className="error" style={ {color: "red"} }>{errors.weight}</p>
+                    <input type="number" placeholder="Min" min={1} max={99} value={input.weightMin} name="weightMin" onChange={(e) => handleChange(e)}/>
+                    <input type="number" placeholder="Max" min={+input.weightMin + 1} max={+input.weightMin + 50} value={input.weightMax} name="weightMax" onChange={(e) => handleChange(e)}/>
+                    {errors.weightMax && (
+                        <p className="error" style={ {color: "red"} }>{errors.weightMax}</p>
+                    )}
+                    {errors.weightMin && (
+                        <p className="error" style={ {color: "red"} }>{errors.weightMin}</p>
                     )}
                 </div>
                 <div>
                     <label>Life Span:</label>
-                    <input type="text" value={input.lifeSpan} name="lifeSpan" onChange={(e) => handleChange(e)}/>
-                    {errors.lifeSpan && (
-                        <p className="error" style={ {color: "red"} }>{errors.lifeSpan}</p>
+                    <input type="number" placeholder="Min" min={1} max={99} value={input.lifeSpanMin} name="lifeSpanMin" onChange={(e) => handleChange(e)}/>
+                    <input type="number" placeholder="Max" min={+input.lifeSpanMin + 1} max={+input.lifeSpanMin + 50} value={input.lifeSpanMax} name="lifeSpanMax" onChange={(e) => handleChange(e)}/>
+                    {errors.lifeSpanMax && (
+                        <p className="error" style={ {color: "red"} }>{errors.lifeSpanMax}</p>
+                    )}
+                    {errors.lifeSpanMin && (
+                        <p className="error" style={ {color: "red"} }>{errors.lifeSpanMin}</p>
                     )}
                 </div>
                 <div>
                     <label>Image:</label>
-                    <input type="text" value={input.image} name="image" onChange={(e) => handleChange(e)}/>
+                    <input type="text" placeholder="Url Link ..." value={input.image} name="image" onChange={(e) => handleChange(e)}/>
                     {errors.image && (
                         <p className="error">{errors.image}</p>
                     )}

@@ -11,7 +11,9 @@ body {
 div.logo-main {
   position: fixed;
 }
-
+div.welcome-image{
+  padding: 20px;
+}
 h3.doglink{
   color: #E80B00;
   margin: 10px 600px;
