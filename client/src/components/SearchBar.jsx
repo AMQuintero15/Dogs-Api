@@ -14,12 +14,13 @@ export default function SearchBar() {
 
     function handleSubmit(e){
         e.preventDefault()
+        setName(" ")
         dispatch(getDogsByName(name))
     }
 
     return (
         <div>
-            <input type="text" placeholder="Search..." onChange={(e) => handleInputChange(e)}/>
+            <input id="searchInput" type="text" placeholder="Search..." value={name} onChange={(e) => handleInputChange(e)}/>
             <button type="submit" onClick={(e) => handleSubmit(e)}>Search</button>
         </div>
     )

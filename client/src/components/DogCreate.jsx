@@ -20,18 +20,6 @@ function validate(input){
     else if(Number(input.heightMin) >= Number(input.heightMax)){
         errors.heightMin = "Minimum height must be less than maximum height"
     }
-    // else if(!/^[0-9\s-]*$/gm.test(input.heightMin)){
-    //     errors.heightMin = "The minimum height must only contain numbers"
-    // }
-    // else if(!/^.{5,7}$/.test(input.heightMin)){
-    //     errors.heightMin = "Please input the minimum height as a range e.g: 10 - 15"
-    // }
-    // else if(!/^[0-9\s-]*$/gm.test(input.heightMax)){
-    //     errors.heightMax = "The maximum height must only contain numbers"
-    // }
-    // else if(!/^.{5,7}$/.test(input.heightMax)){
-    //     errors.heightMax = "Please input the maximum height as a range e.g: 10 - 15"
-    // }
     else if(!input.weightMin){
         errors.weightMin = "A minimum weight is required"
     }
@@ -41,12 +29,6 @@ function validate(input){
     else if(Number(input.weightMin) >= Number(input.weightMax)){
         errors.weightMin = "Minimum weight must be less than maximum weight"
     }
-    // else if(!/^[0-9\s-]*$/gm.test(input.weight)){
-    //     errors.weight = "The weight must only contain numbers"
-    // }
-    // else if(!/^.{5,7}$/.test(input.weight)){
-    //     errors.weight = "Please input the weight as a range e.g: 10 - 15"
-    // }
     else if(!input.lifeSpanMin){
         errors.lifeSpanMin = "A minimum life span is required"
     }
@@ -56,16 +38,6 @@ function validate(input){
     else if(Number(input.lifeSpanMin) >= Number(input.lifeSpanMax)){
         errors.lifeSpanMin = "Minimum lifeSpan must be less than maximum lifeSpan"
     }
-    // else if(!input.lifeSpan){
-    //     errors.lifeSpan = "A Life Span is required"
-    // }
-    // else if(!/^[0-9\s-]|\W*(years)\W*$/gm.test(input.lifeSpan)){
-    //     errors.lifeSpan = "The lifeSpan must only contain numbers and the words 'years' at the end"
-    // }
-    // else if(!/^.{11,13}$/.test(input.lifeSpan)){
-    //     errors.lifeSpan = "Please input the lifeSpan as a range with the word years e.g: 10 - 15 years"
-    // }
-    console.log(errors)
     return errors
 }
 
@@ -91,7 +63,6 @@ export default function DogCreate(){
         image: "",
         temperament: []
     })
-    console.log(input)
     useEffect(() => {
         dispatch(getTemperaments())
     }, [dispatch]);
@@ -111,10 +82,15 @@ export default function DogCreate(){
     }
 
     function handleSelect(e){
+        for (let i = 0; i < input.temperament.length; i++) {
+            if(input.temperament[i] === e.target.value){
+                return input
+            }
+        }
         setInput({
-            ...input,
-            temperament: [...input.temperament, e.target.value]
-        })
+        ...input,
+        temperament: [...input.temperament, e.target.value]
+    })
     }
 
     function handleSubmit(e){
@@ -194,7 +170,7 @@ export default function DogCreate(){
                     <option value="None">Select Your Doggies Temperaments</option>
                     {
                         temperaments?.map((e, i) => {
-                                return (
+                            return (
                                     <option id={i} value={e} key={i}>{e}</option>
                                 )})
                     }

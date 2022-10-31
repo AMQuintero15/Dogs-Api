@@ -55,6 +55,8 @@ export default function Home(){
         dispatch(filterByCreated(e.target.value))
         setCurrentPage(1)
     }
+
+
     return (
         <div>
             <Link className="homeCreateDog" to= "/dogs">Create Dog</Link>

@@ -10,7 +10,8 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 router.get("/dogs", async (req,res)=>{
-    const name = req.query.name
+    try {
+        const name = req.query.name
     let dogsAll = await getAllDogs();
     if (name){
         let dogName = await dogsAll.filter(el => el.name.toLowerCase().includes(name.toLowerCase()))
@@ -20,6 +21,10 @@ router.get("/dogs", async (req,res)=>{
     } else{
         res.status(200).send(dogsAll)
     }
+    } catch (error) {
+        res.status(404).send('There was an unexpected error') 
+    }
+    
 })
 
 router.get("/temperaments", async (req,res) => {
@@ -61,6 +66,21 @@ router.get("/dogs/:id", async (req,res) =>{
         res.status(200).json(dogId) :
         res.status(404).send("The Dog Was Not Found")
     }
+})
+
+router.delete("/delete/:id", async (req,res)=>{
+    const idDelete = req.params.id;
+    try{
+        await Dog.destroy({
+            where: {
+                id: idDelete
+            }
+        })
+        res.status(200).send("Dog deleted successfully")
+    } catch(err){
+        res.status(404).send("Dog could not be deleted")
+    }
+    
 })
 
 module.exports = router;

@@ -16,7 +16,9 @@ div.welcome-image{
 }
 h3.doglink{
   color: #E80B00;
-  margin: 10px 600px;
+  width: 10px;
+  display: inline;
+  margin: 0;
 }
 
 h3.doglink:hover{
@@ -43,7 +45,12 @@ li.number:hover:not(.active){
   background-color: #4CAF50;
   color: white;
 }
-
+button{
+  font-family: cursive;
+  color: #FFD100;
+  background-color: firebrick;
+  border-color: brown;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

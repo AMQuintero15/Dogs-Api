@@ -31,7 +31,7 @@ const getDbInfo = async () => {
 }
 
 const getAllDogs = async () =>{
-    const apiDogs = await getApiInfo()
+    const apiDogs = await getApiInfo();
     const dbInfo = await getDbInfo();
     const dbInfoString = dbInfo.map(el =>{
         let newDog = {
@@ -80,7 +80,6 @@ const getAllDogs = async () =>{
   }
 
   module.exports = {
-    getApiInfo,
     getAllDogs,
     getAllTemperaments,
   }
